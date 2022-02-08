@@ -14,19 +14,36 @@ def interest(start_date, end_date):
         totalYears += 1
 
     if stYear == endYear:  # if both starting year and ending year is same ==> month calculation
-        for mnth in range(stMonth+1, endMonth):
-            remainingMonths += 1
-    else:                                  # if not same remaining month calculation
+        if stMonth == endMonth:
+            remainingDays = endDay-stDay
+        else:
+            for mnth in range(stMonth+1, endMonth):
+                remainingMonths += 1
+            if endDay >= stDay:
+                remainingMonths += 1
+                remainingDays = endDay-stDay
+            else:
+                calRemainingDays = ((30-stDay)+endDay)
+                remainingMonths += calRemainingDays//30
+                remainingDays = calRemainingDays-(calRemainingDays//30)*30
+
+    else:
+        # if not same remaining month calculation
         for mnth in range(stMonth+1, 13):
             remainingMonths += 1
         for mnth in range(1, endMonth):
             remainingMonths += 1
 
-    if stMonth == endMonth:  # if both startMonth and End month is same  remaining days calculation
-        remainingDays = endDay-stDay
-    else:                    # if both start Month and End month is not same remaining days calculation
-        remainingMonths += ((30-stDay+1)+endDay)//30
-        remainingDays = ((30-stDay)+endDay) % 30
+        if endDay >= stDay:
+            remainingMonths += 1
+            remainingDays = endDay-stDay
+        else:
+            calRemainingDays = ((30-stDay)+endDay)
+            remainingMonths += calRemainingDays//30
+            remainingDays = calRemainingDays-(calRemainingDays//30)*30
+
+    totalYears += remainingMonths//12
+    remainingMonths = remainingMonths % 12
 
     print("Total Years: ", totalYears)
 
